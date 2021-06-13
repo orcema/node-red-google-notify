@@ -1,0 +1,33 @@
+{
+  "name": "node-red-google-notify",
+  "version": "1.0.0",
+  "description": "text notification to google home or google cast",
+  "main": "node-red-google-notify.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orcema/node-red-google-notify.git"
+  },
+  "keywords": [
+    "google",
+    "cast",
+    "local",
+    "mediaserver",
+    "level",
+    "volume",
+    "notify"
+  ],
+  "author": "Orcé MARINKOVSKI",
+  "license": "MIT",
+  "dependencies": {
+    "bonjour": "^3.5.0",
+    "file-server": "2.1.0",
+    "google-notify": "^1.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/orcema/node-red-google-notify/issues"
+  },
+  "homepage": "https://github.com/orcema/node-red-google-notify#readme"
+}
