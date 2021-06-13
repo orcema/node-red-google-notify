@@ -1,6 +1,6 @@
 {
   "name": "node-red-google-notify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "text notification to google home or google cast",
   "main": "node-red-google-notify.js",
   "node-red": {
@@ -16,6 +16,7 @@
     "url": "git+https://github.com/orcema/node-red-google-notify.git"
   },
   "keywords": [
+    "node-red",
     "google",
     "cast",
     "local",
