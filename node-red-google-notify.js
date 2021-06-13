@@ -37,7 +37,7 @@ module.exports = function (RED) {
     this.googlehomenotifier = require('google-notify')(
       nodeServer.ipaddress,
       nodeServer.language,
-      1,
+      nodeServer.speakSlow,
       serverIP,
       this.mediaServerPortInUse,
       this.cacheFolderInUse,
@@ -115,8 +115,8 @@ module.exports = function (RED) {
       if (msg.emitVolume) {
         nodeServerInstance.googlehomenotifier.setEmitVolume(msg.emitVolume);
       }
-      if (msg.speed) {
-        nodeServerInstance.googlehomenotifier.setSpeechSpeed(msg.speed);
+      if (msg.speakSlow) {
+        nodeServerInstance.googlehomenotifier.setSpeechSpeed(msg.speakSlow);
       }
     }
     /* #endregion */
@@ -225,7 +225,6 @@ module.exports = function (RED) {
   /* #endregion */
 
 };
-
 
 
 

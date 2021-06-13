@@ -15,11 +15,14 @@
       notificationLevel: {
         value: ""
       },
+      speakSlow: {
+        value: "true"
+      },
       mediaServerPort: {
         value: ""
       },
       cacheFolder: {
-        value: "/tmp"
+        value: ""
       }
     },
     label: function () {
@@ -63,7 +66,7 @@
 
     },
     oneditsave: function () {
-      // this.language = $("#node-input-language").val();
+      this.language = $("#node-input-language").val();
       // this.notificationLevel = $("#node-config-input-notificationLevel").val();
       // this.mediaListenPort = $("#node-config-input-mediaListenPort").val();
     }
@@ -83,12 +86,16 @@
   <div class="form-row">
     <label for="node-input-language"><i class="fa fa-globe"></i>  Language</label>
     <select id="node-input-language" style="width:60%;">
-          <option value="en"> English</option>
+          <!-- <option value="en"> English</option> -->
       </select>
   </div>
   <div class="form-row">
-    <label for="node-config-input-notificationLevel" style="width:40%;"><i class="fa fa-volume-up" ></i> Default notification level (%)</label>
-    <input type="text" id="node-config-input-notificationLevel" style="width:10%;" placeholder="20"/>
+    <label for="node-config-input-notificationLevel" style="white-space: nowrap;width:250px;"><i class="fa fa-volume-up" ></i> Default notificqtion volume level (%)</label>
+    <input type="text" id="node-config-input-notificationLevel" style="width:50px;" placeholder="20"/>
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-speakSlow" style="white-space: nowrap;width:100px;"><i class="fa fa-volume-up" ></i> Speak slow</label>
+    <input type="checkbox" id="node-config-input-speakSlow" style="width:50px;" />
   </div>
   <div class="form-row">
     <label style="width:40%;"><i class="fa fa-server" ></i> Media server</label>
