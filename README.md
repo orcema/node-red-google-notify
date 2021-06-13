@@ -30,4 +30,6 @@ The notification level can be defined in the device configuration and overriden 
 
 * The language can also be altered with **msg.lang** The list of available languages can be checked <a href="https://github.com/orcema/node-red-google-notify/blob/master/languages.js">here</a>
 
-<a href="https://github.com/orcema/node-red-google-notify/blob/master/assets/configSample.png">Config sample</a>
+* Config sample
+
+<img src="https://github.com/orcema/node-red-google-notify/blob/master/assets/configSample.png"></img>
