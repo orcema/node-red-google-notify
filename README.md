@@ -28,3 +28,6 @@ The notification level can be defined in the device configuration and overriden 
 
 * The notification play speed can be defined as normal or slow. The speed can be set as default value in the node config or altered by the message **msg.speakSlow = true**
 
+* The language can also be altered with **msg.lang** The list of available languages can be checked <a href="https://github.com/orcema/node-red-google-notify/blob/master/languages.js">here</a>
+
+<a href="https://github.com/orcema/node-red-google-notify/blob/master/assets/configSample.png">Config sample</a>

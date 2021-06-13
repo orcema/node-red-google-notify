@@ -118,6 +118,9 @@ module.exports = function (RED) {
       if (msg.speakSlow) {
         nodeServerInstance.googlehomenotifier.setSpeechSpeed(msg.speakSlow);
       }
+      if (msg.lang) {
+        nodeServerInstance.googlehomenotifier.setLanguage(msg.lang);
+      }
     }
     /* #endregion */
 
