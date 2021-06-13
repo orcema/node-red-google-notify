@@ -1,0 +1,150 @@
+<script type="text/javascript">
+  RED.nodes.registerType('google-notify-config', {
+    category: 'config',
+    defaults: {
+      ipaddress: {
+        value: "",
+        required: true
+      },
+      name: {
+        value: ""
+      },
+      language: {
+        value: "en"
+      },
+      notificationLevel: {
+        value: ""
+      },
+      mediaServerPort: {
+        value: ""
+      },
+      cacheFolder: {
+        value: "/tmp"
+      }
+    },
+    label: function () {
+      return this.name || this.ipaddress;
+    },
+    oneditprepare: function () {
+      var node = this;
+      var options = $("#node-input-language");
+      //Calling the API built by NodeJS code
+      $.getJSON('/languages', function (languages) {
+        $.each(languages, function (l, language) {
+          options.append($("<option />").val(language.key).text(language.value));
+          options.val(node.language);
+        });
+      });
+
+      try {
+        $("#node-config-input-ipaddress").autocomplete("destroy");
+      } catch (err) { }
+      $("#node-config-lookup-ipaddress").click(function () {
+        $("#node-config-lookup-ipaddress-icon").removeClass('fa-search');
+        $("#node-config-lookup-ipaddress-icon").addClass('spinner');
+        $("#node-config-lookup-ipaddress").addClass('disabled');
+        $.getJSON('ipaddresses', function (data) {
+          $("#node-config-lookup-ipaddress-icon").addClass('fa-search');
+          $("#node-config-lookup-ipaddress-icon").removeClass('spinner');
+          $("#node-config-lookup-ipaddress").removeClass('disabled');
+          var ipaddresses = [];
+          $.each(data, function (i, ip) {
+            ipaddresses.push(ip);
+          });
+          $("#node-config-input-ipaddress").autocomplete({
+            source: ipaddresses,
+            minLength: 0,
+            close: function (event, ui) {
+              $("#node-config-input-ipaddress").autocomplete("destroy");
+            }
+          }).autocomplete("search", "");
+        });
+      });
+
+    },
+    oneditsave: function () {
+      // this.language = $("#node-input-language").val();
+      // this.notificationLevel = $("#node-config-input-notificationLevel").val();
+      // this.mediaListenPort = $("#node-config-input-mediaListenPort").val();
+    }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="google-notify-config">
+  <div class="form-row">
+    <label for="node-config-input-ipaddress"><i class="icon-bookmark"></i> IP Adress</label>
+    <input type="text" id="node-config-input-ipaddress" style="width:60%;" placeholder="192.168.xxx.xxx"/>
+    <a id="node-config-lookup-ipaddress" class="btn"><i id="node-config-lookup-ipaddress-icon" class="fa fa-search"></i></a>
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" style="width:60%;" placeholder="cast device name"/>
+  </div>
+  <div class="form-row">
+    <label for="node-input-language"><i class="fa fa-globe"></i>  Language</label>
+    <select id="node-input-language" style="width:60%;">
+          <option value="en"> English</option>
+      </select>
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-notificationLevel" style="width:40%;"><i class="fa fa-volume-up" ></i> Default notification level (%)</label>
+    <input type="text" id="node-config-input-notificationLevel" style="width:10%;" placeholder="20"/>
+  </div>
+  <div class="form-row">
+    <label style="width:40%;"><i class="fa fa-server" ></i> Media server</label>
+    <li>
+      <label for="node-config-input-mediaServerPort" >listening port</label>
+      <input type="text" id="node-config-input-mediaServerPort" style="width:75px;" placeholder="8098"/>
+    </li>
+    <li>
+      <label for="node-config-input-cacheFolder" > cache folder</label>
+      <input type="text" id="node-config-input-cacheFolder" placeholder="/tmp"/>
+    </li>
+  </div>
+
+</script>
+
+
+<!-- ###############################################################################################################-->
+
+<script type="text/javascript">
+  RED.nodes.registerType('google-notify', {
+    category: 'output',
+    color: '#6699ff',
+    defaults: {
+      server: {
+        value: "",
+        type: "google-notify-config"
+      },
+      name: {
+        value: ""
+      }
+    },
+    inputs: 1,
+    outputs: 0,
+    label: function () {
+      return this.configname || this.name || "Google notify";
+    }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="google-notify">
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-globe"></i> IP Adress</label>
+    <input type="text" id="node-input-server">
+  </div>
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Google Home Notifier Offline" style="width: 70%;">
+  </div>
+  <div class="form-row" style="width: 400px">
+    <br><li> announcement volume can be set with <b>msg.emitVolume</b> value has to be in range between 0-100</li>
+    <br><li> cache to local directory the mp3 of the announcement using <b>msg.cacheFolder</b>. This way next announcement for the same text will be played from the local cache</li>
+    <br><li> the server port for the cache server can be changed using <b>msg.fileServerPort</b>. The default server port is set to 8081. Change it only in case of port conflict</li>
+    
+    <br><p>Here below is a sample you can import using the "import from clipboard" for the above mentionned options :</p>
+    <p> [{"id":"57e4bdb9.ad4a44","type":"change","z":"c348d271.07631","name":"","rules":[{"t":"set","p":"emitVolume","pt":"msg","to":"10","tot":"str"},{"t":"set","p":"cacheFolder","pt":"msg","to":"D:\\tmp\\GHCache","tot":"str"},{"t":"set","p":"fileServerPort","pt":"msg","to":"8098","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":540,"y":320,"wires":[["eac3f07f.4fb99"]]}]
+    </p>
+  </div>  
+</script>
+
