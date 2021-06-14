@@ -1,7 +1,7 @@
 'use strict';
 var mediaServers = [];
 const serverIP = require("ip").address();
-const defaultServerPort = "8089";
+const defaultServerPort = "8098";
 const defaultCacheFolder = "/tmp"
 
 
