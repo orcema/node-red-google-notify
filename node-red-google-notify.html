@@ -153,11 +153,7 @@
   </div>
   <div class="form-row" style="width: 400px">
     <br><li> announcement volume can be set with <b>msg.emitVolume</b> value has to be in range between 0-100</li>
-    <br><li> cache to local directory the mp3 of the announcement using <b>msg.cacheFolder</b>. This way next announcement for the same text will be played from the local cache</li>
-    <br><li> the server port for the cache server can be changed using <b>msg.fileServerPort</b>. The default server port is set to 8081. Change it only in case of port conflict</li>
-    
-    <br><p>Here below is a sample you can import using the "import from clipboard" for the above mentionned options :</p>
-    <p> [{"id":"57e4bdb9.ad4a44","type":"change","z":"c348d271.07631","name":"","rules":[{"t":"set","p":"emitVolume","pt":"msg","to":"10","tot":"str"},{"t":"set","p":"cacheFolder","pt":"msg","to":"D:\\tmp\\GHCache","tot":"str"},{"t":"set","p":"fileServerPort","pt":"msg","to":"8098","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":540,"y":320,"wires":[["eac3f07f.4fb99"]]}]
-    </p>
+    <br><li> The notification play speed can be defined as normal or slow. The speed can be set as default value in the node config or altered by the message <b>msg.speakSlow = true</b></li>
+    <br><li> The language can also be altered with <b>msg.lang</b></li>, <b>'en'</b> (English), <b>'fr'</b>(French) ...
   </div>  
 </script>

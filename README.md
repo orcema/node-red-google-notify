@@ -3,7 +3,7 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
-| 1.1.0     | user overridable media server url
+| 1.1.1     | user overridable media server url
 | 1.0.1     | Initial  release
 
 
