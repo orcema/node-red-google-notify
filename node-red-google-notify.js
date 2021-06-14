@@ -31,6 +31,7 @@ module.exports = function (RED) {
     //Known issue: when 'language' is Default/Auto, this will fail & return undefined
     this.mediaServerPortInUse = (nodeServer.mediaServerPort ? nodeServer.mediaServerPort : defaultServerPort);
     this.cacheFolderInUse = (nodeServer.cacheFolder ? nodeServer.cacheFolder : defaultCacheFolder);
+    this.mediaServerUrl = (nodeServer.mediaServerUrl ? nodeServer.mediaServerUrl:'http://'+serverIP);
 
     mediaServerStart(this);
 
@@ -38,7 +39,7 @@ module.exports = function (RED) {
       nodeServer.ipaddress,
       nodeServer.language,
       nodeServer.speakSlow,
-      serverIP,
+      this.mediaServerUrl ,
       this.mediaServerPortInUse,
       this.cacheFolderInUse,
       (nodeServer.notificationLevel ? nodeServer.notificationLevel / 100 : 0.2)

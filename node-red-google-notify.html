@@ -18,6 +18,9 @@
       speakSlow: {
         value: "true"
       },
+      mediaServerUrl: {
+        value: ""
+      },
       mediaServerPort: {
         value: ""
       },
@@ -100,6 +103,10 @@
   <div class="form-row">
     <label style="width:40%;"><i class="fa fa-server" ></i> Media server</label>
     <li>
+      <label for="node-config-input-mediaServerUrl" >url</label>
+      <input type="text" id="node-config-input-mediaServerUrl" placeholder="http://[ip/domain]"/>
+    </li>
+    <li>
       <label for="node-config-input-mediaServerPort" >listening port</label>
       <input type="text" id="node-config-input-mediaServerPort" style="width:75px;" placeholder="8098"/>
     </li>
@@ -154,4 +161,3 @@
     </p>
   </div>  
 </script>
-

@@ -3,6 +3,7 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
+| 1.1.0     | user overridable media server url
 | 1.0.1     | Initial  release
 
 
@@ -11,8 +12,8 @@
 With this node you can cast text notification to any google cast device (e.g. google home, chrome cast ...)
 The text of the **msg.payload** is converted to mp3 audio and stored in the cache folder. Each cast device has it's own local media server. Thus the google cast device plays the mp3 notification from your device hosting node-red.
 
-The played message is the available to anyone by calling the url.
-If you play the notifiation ** this is a test** the you will find a file in the cache folder named like 
+The played message is then available to anyone by calling the url.
+If you play the notifiation ** this is a test** then you will find a file in the cache folder named like 
 ```
 THIS_IS_A_TEST-en-slow.mp3
 ```
@@ -22,6 +23,7 @@ THIS_IS_A_TEST-en-slow.mp3
 
 This mp3 audio notification is then available at http://[ip]:[port]/THIS_IS_A_TEST-en-slow.mp3
 
+
 ### Features:
 * The notification is played at defined volume level and the inital **volume level** of the casting device is **restored** after notification has been played.
 The notification level can be defined in the device configuration and overriden anytime using **msg.emitVolume**
@@ -30,6 +32,12 @@ The notification level can be defined in the device configuration and overriden 
 
 * The language can also be altered with **msg.lang** The list of available languages can be checked <a href="https://github.com/orcema/node-red-google-notify/blob/master/languages.js">here</a>
 
-* Config sample
+## config sample with msg
+[<img src="assets/msgConfigSample.png" height="500"/>](image.png)
 
-<img src="https://github.com/orcema/node-red-google-notify/blob/master/assets/configSample.png"></img>
+## device config sample
+* IP Address: ip address of the casting device
+* url: optional url if running within docker, else leave blank
+
+
+[<img src="assets/deviceConfigSample.png" height="500"/>](image.png)
