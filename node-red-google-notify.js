@@ -5,6 +5,8 @@ const defaultServerPort = "8098";
 const defaultCacheFolder = "/tmp"
 
 
+
+
 module.exports = function (RED) {
 
   // Configuration node
@@ -87,14 +89,12 @@ module.exports = function (RED) {
         return;
       }
 
-      applySettingsFromMessage(msg);
-
       node_status("preparing voice message")
       
       console.log("new message -----");
 
       nodeServerInstance.googlehomenotifier
-        .notify(msg.payload)
+        .notify(msg)
         .then(_ =>
           node_status_ready())
         .catch(e =>
@@ -112,17 +112,7 @@ module.exports = function (RED) {
     node_status_ready();
 
     /* #region  helpers */
-    function applySettingsFromMessage(msg) {
-      if (msg.emitVolume) {
-        nodeServerInstance.googlehomenotifier.setEmitVolume(msg.emitVolume);
-      }
-      if (msg.speakSlow) {
-        nodeServerInstance.googlehomenotifier.setSpeechSpeed(msg.speakSlow);
-      }
-      if (msg.lang) {
-        nodeServerInstance.googlehomenotifier.setLanguage(msg.lang);
-      }
-    }
+
     /* #endregion */
 
     //#region node notifications
