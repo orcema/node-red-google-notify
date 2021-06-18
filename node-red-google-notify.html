@@ -1,3 +1,23 @@
+<style>
+  .group{
+    border:1px solid blue;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px;
+    padding: 10px;
+    margin-top:30px;
+  }
+  .groupLabel{
+    transform: translateY(-20px);
+    background-color: white;
+    text-align: center;
+    width: 150px;
+  }
+  .overridableInstruction{
+    padding-left:15px;
+    font-size: smaller;
+  }
+</style>
+
 <script type="text/javascript">
   RED.nodes.registerType('google-notify-config', {
     category: 'config',
@@ -129,7 +149,7 @@
 
 <script type="text/javascript">
   RED.nodes.registerType('google-notify', {
-    category: 'output',
+    category: 'media',
     color: '#6699ff',
     defaults: {
       server: {
@@ -139,17 +159,26 @@
       name: {
         value: ""
       },
-      language: {
-        value: "default"
-      },
       playVolumeLevel: {
-        value: "20",
+        value: "",
         validate: RED.validators.regex(/^(\s*|[0-9]|[1-9][0-9]|100)$/)
+      },
+      playMessage:{
+        value:""
+      },
+      language: {
+        value: "config"
+      },
+      speakSlow: {
+        value: "config"
+      },
+      mediaUrl: {
+        value: ""
       },
 
     },
     inputs: 1,
-    outputs: 0,
+    outputs: 1,
     label: function () {
       return this.configname || this.name || "Google notify";
     },
@@ -157,7 +186,7 @@
       var node = this;
       var options = $("#node-input-language");
       //Calling the API built by NodeJS code
-      options.append($("<option />").val('default').text('default'));
+      options.append($("<option />").val('config').text('use config'));
       $.getJSON('/languages', function (languages) {
         $.each(languages, function (l, language) {
           options.append($("<option />").val(language.key).text(language.value));
@@ -176,25 +205,50 @@
     <label for="node-input-server"><i class="fa fa-globe"></i> IP Adress</label>
     <input type="text" id="node-input-server">
   </div>
+
   <div class="form-row">
     <label for="node-input-name"><i class="icon-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Google notify" style="width: 70%;">
   </div>
 
   <div class="form-row">
-    <label for="node-input-language"><i class="fa fa-globe"></i>  Language</label>
-    <select id="node-input-language" style="width:60%;">
-          <!-- <option value="en"> English</option> -->
-      </select>
-  </div>
-  <div class="form-row">
     <label for="node-input-playVolumeLevel" style="white-space: nowrap;width:160px;"><i class="fa fa-volume-up" ></i> Play volume level (%)</label>
-    <input type="text" id="node-input-playVolumeLevel" style="width:50px;" placeholder="20"/>
+    <input type="text" id="node-input-playVolumeLevel" style="width:80px;text-align:center;" placeholder="use config"/>
+    <p class="overridableInstruction"><i class="fa fa-arrow-circle-right"></i> <i>overridable with <b>msg.playVolumeLevel</b> [0-100]</i></p>
   </div>
 
-  <div class="form-row" style="width: 400px">
-    <br><li> announcement volume can be set with <b>msg.emitVolume</b> value has to be in range between 0-100</li>
-    <br><li> The notification play speed can be defined as normal or slow. The speed can be set as default value in the node config or altered by the message <b>msg.speakSlow = true</b></li>
-    <br><li> The language can also be altered with <b>msg.lang</b></li>, <b>'en'</b> (English), <b>'fr'</b>(French) ...
-  </div>  
+  <div class="group">
+    <div class="groupLabel">Play voice Message</div>
+    <div class="form-row">
+      <label for="node-input-playMessage"><i class="fa fa-comment" ></i></i> Text</label>
+      <input type="text" id="node-input-playMessage" placeholder="voice message" style="width: 70%;">
+      <p class="overridableInstruction"><i class="fa fa-arrow-circle-right"></i> <i>overridable with <b>msg.playMessage</b> </i></p>
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-language"><i class="fa fa-globe"></i>  Language</label>
+      <select id="node-input-language" style="width:60%;">
+      </select>
+      <p class="overridableInstruction"><i class="fa fa-arrow-circle-right"></i> <i>overridable with <b>msg.language</b> [en|fr|de|...]</i></p>
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-speakSlow" style="white-space: nowrap;"><i class="fa fa-volume-up" ></i> Speak slow</label>
+      <select id="node-input-speakSlow" style="width:100px;">
+        <option value="config">use config</option>
+        <option value="true"> YES</option>
+        <option value="false"> NO</option>
+      </select>
+      <p class="overridableInstruction"><i class="fa fa-arrow-circle-right"></i> <i>overridable with <b>msg.speakSlow</b> [true|false]</i></p>
+    </div>
+  </div>
+  <div class="group">
+    <div class="groupLabel">Play media</div>
+    <div class="form-row">
+      <label for="node-input-mediaUrl"><i class="icon-tag"></i>Media to play</label>
+      <input type="text" id="node-input-mediaUrl" placeholder="url to media to play" style="width: 70%;">
+      <p class="overridableInstruction"><i class="fa fa-arrow-circle-right"></i> <i>overridable with <b>msg.mediaUrl</b> </i></p>
+
+    </div>
+  </div>
 </script>

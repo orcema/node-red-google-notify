@@ -44,7 +44,7 @@ module.exports = function (RED) {
       this.mediaServerUrl,
       this.mediaServerPortInUse,
       this.cacheFolderInUse,
-      (nodeServer.notificationLevel ? nodeServer.notificationLevel / 100 : 0.2)
+      nodeServer.playVolumeLevel
     );
 
     this.googlehomenotifier.setMaxListeners(Infinity);
@@ -64,18 +64,34 @@ module.exports = function (RED) {
 
   function GoogleNotify(nodeInFlow) {
     RED.nodes.createNode(this, nodeInFlow);
-    const nodeInstance = this;
-    const nodeServerInstance = RED.nodes.getNode(nodeInFlow.server);
+    this.nodeInFlow = nodeInFlow;
+    if(this.nodeInFlow.language=='config') this.nodeInFlow.language=undefined;
+    if(this.nodeInFlow.playVolumeLevel=='') this.nodeInFlow.playVolumeLevel=undefined;
+    if(this.nodeInFlow.speakSlow=='config') this.nodeInFlow.speakSlow=undefined;
+    if(this.nodeInFlow.playMessage=='') this.nodeInFlow.playMessage=undefined;
 
-    if (nodeServerInstance === null || nodeServerInstance === undefined) {
+    const thisNode = this;
+    const thisNodeServerInstance = RED.nodes.getNode(nodeInFlow.server);
+
+    if (thisNodeServerInstance === null || thisNodeServerInstance === undefined) {
       node_status_error("please assign node to a cast device")
       return;
     }
 
-    nodeInstance.on('input', function (msg) {
+    thisNode.on('input', function (msg) {
+      msg.playVolumeLevel = (msg.hasOwnProperty('playVolumeLevel') ? msg.playVolumeLevel : this.nodeInFlow.playVolumeLevel);
+      msg.playMessage = (msg.hasOwnProperty('playMessage') ? msg.playMessage : this.nodeInFlow.playMessage);
+      msg.language = (msg.hasOwnProperty('language') ? msg.language : this.nodeInFlow.language);
+      msg.speakSlow = (msg.hasOwnProperty('speakSlow') ? msg.speakSlow : this.nodeInFlow.speakSlow);
+      msg.mediaUrl = (msg.hasOwnProperty('mediaUrl') ? msg.mediaUrl : this.nodeInFlow.mediaUrl);
+
+      msg.mediaServerUrl = (msg.hasOwnProperty('mediaServerUrl') ? msg.mediaServerUrl : this.nodeInFlow.mediaServerUrl);
+      msg.mediaServerPort = (msg.hasOwnProperty('mediaServerPort') ? msg.mediaServerPort : this.nodeInFlow.mediaServerPort);
+      msg.cacheFolder = (msg.hasOwnProperty('cacheFolder') ? msg.cacheFolder : this.nodeInFlow.cacheFolder);
+      
       //Validate config node
-      if (nodeServerInstance === null || nodeServerInstance === undefined) {
-        nodeInstance.status({
+      if (thisNodeServerInstance === null || thisNodeServerInstance === undefined) {
+        thisNode.status({
           fill: "red",
           shape: "ring",
           text: "please create & select a config node"
@@ -84,7 +100,7 @@ module.exports = function (RED) {
       }
 
       //Workaround for a known issue
-      if (nodeServerInstance.googlehomenotifier === null || nodeServerInstance.googlehomenotifier === undefined) {
+      if (thisNodeServerInstance.googlehomenotifier === null || thisNodeServerInstance.googlehomenotifier === undefined) {
         node_status_error("please select a non-Default language")
         return;
       }
@@ -93,19 +109,21 @@ module.exports = function (RED) {
 
       console.log("new message -----");
 
-      nodeServerInstance.googlehomenotifier
+      thisNodeServerInstance.googlehomenotifier
         .notify(msg)
-        .then(_ =>
-          node_status_ready())
+        .then(devicePlaySettings => {
+          node_status_ready();
+          thisNode.send(devicePlaySettings);
+        })
         .catch(e =>
           node_status_error(e));
     });
 
-    nodeServerInstance.googlehomenotifier.on('status', function (message) {
+    thisNodeServerInstance.googlehomenotifier.on('status', function (message) {
       node_status(message);
     });
 
-    nodeServerInstance.googlehomenotifier.on('error', function (message) {
+    thisNodeServerInstance.googlehomenotifier.on('error', function (message) {
       node_status_error(message);
     });
 
@@ -117,7 +135,7 @@ module.exports = function (RED) {
 
     //#region node notifications
     function node_status(message) {
-      nodeInstance.status({
+      thisNode.status({
         fill: "blue",
         shape: "dot",
         text: message
@@ -125,7 +143,7 @@ module.exports = function (RED) {
     }
 
     function node_status_ready() {
-      nodeInstance.status({
+      thisNode.status({
         fill: "green",
         shape: "dot",
         text: "ready"
@@ -133,7 +151,7 @@ module.exports = function (RED) {
     }
 
     function node_status_error(message) {
-      nodeInstance.status({
+      thisNode.status({
         fill: "red",
         shape: "ring",
         text: message
