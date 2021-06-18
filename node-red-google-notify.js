@@ -33,7 +33,7 @@ module.exports = function (RED) {
     //Known issue: when 'language' is Default/Auto, this will fail & return undefined
     this.mediaServerPortInUse = (nodeServer.mediaServerPort ? nodeServer.mediaServerPort : defaultServerPort);
     this.cacheFolderInUse = (nodeServer.cacheFolder ? nodeServer.cacheFolder : defaultCacheFolder);
-    this.mediaServerUrl = (nodeServer.mediaServerUrl ? nodeServer.mediaServerUrl:'http://'+serverIP);
+    this.mediaServerUrl = (nodeServer.mediaServerUrl ? nodeServer.mediaServerUrl : 'http://' + serverIP);
 
     mediaServerStart(this);
 
@@ -41,7 +41,7 @@ module.exports = function (RED) {
       nodeServer.ipaddress,
       nodeServer.language,
       nodeServer.speakSlow,
-      this.mediaServerUrl ,
+      this.mediaServerUrl,
       this.mediaServerPortInUse,
       this.cacheFolderInUse,
       (nodeServer.notificationLevel ? nodeServer.notificationLevel / 100 : 0.2)
@@ -52,7 +52,7 @@ module.exports = function (RED) {
 
     //Build another API to auto detect IP Addresses
     discoverIpAddresses('googlecast', function (ipaddresses) {
-      RED.httpAdmin.get('/ipaddresses', function (req, res) {
+      RED.httpAdmin.get('/gn-ipaddresses', function (req, res) {
         res.json(ipaddresses);
       });
     });
@@ -90,7 +90,7 @@ module.exports = function (RED) {
       }
 
       node_status("preparing voice message")
-      
+
       console.log("new message -----");
 
       nodeServerInstance.googlehomenotifier
@@ -156,9 +156,14 @@ module.exports = function (RED) {
     }, function (service) {
       service.addresses.forEach(function (element) {
         if (element.split(".").length == 4) {
-          var label = "" + service.txt.md + " (" + element + ")";
+          const deviceTypeName = ""
+            + service.txt.md
+            + (service.txt.md.toLowerCase() != service.txt.fn.toLowerCase() ? "." + service.txt.fn : "");
+          const label = deviceTypeName
+            + " (" + element + ")";
           ipaddresses.push({
             label: label,
+            device: deviceTypeName,
             value: element
           });
         }
@@ -176,40 +181,40 @@ module.exports = function (RED) {
     const matchedMediaServer = mediaServers.find(servers =>
       servers.mediaServerPortInUse == nodeInstance.mediaServerPortInUse);
     if (matchedMediaServer) {
-      console.log('destroying media server:',matchedMediaServer.serverInstance)
-      matchedMediaServer.serverInstance.close(_=>{
+      console.log('destroying media server:', matchedMediaServer.serverInstance)
+      matchedMediaServer.serverInstance.close(_ => {
         mediaServers = mediaServers.filter(servers => servers.mediaServerPortInUse != nodeInstance.mediaServerPortInUse);
-        setTimeout(()=>{
+        setTimeout(() => {
           mediaServerStart(nodeInstance);
-        },1)
-        
+        }, 1)
+
       });
       return;
-      
+
     }
     startMediaServerInstance(nodeInstance);
-  
-   
+
+
 
   }
 
   function startMediaServerInstance(nodeInstance) {
     const FileServer = require('file-server');
-  
+
     const fileServer = new FileServer((error, request, response) => {
       response.statusCode = error.code || 500;
       response.end("404: Not Found " + request.url);
     });
-  
+
     const serveRobots = fileServer.serveDirectory(nodeInstance.cacheFolderInUse, {
       '.mp3': 'audio/mpeg'
     });
-  
+
     const httpServer = require('http')
       .createServer(serveRobots)
       .listen(nodeInstance.mediaServerPortInUse);
     console.log("fileServer listening on ip " + serverIP + " and port " + nodeInstance.mediaServerPortInUse);
-  
+
     mediaServers.push({
       'serverInstance': httpServer,
       'mediaServerPortInUse': nodeInstance.mediaServerPortInUse
