@@ -12,9 +12,10 @@
 
 With this node you can cast text notification to any google cast device (e.g. google home, chrome cast ...)
 The text of the **msg.playMessage** is converted to mp3 audio and stored in the cache folder. Each cast device can have it's own local media server or the same media server can be shared over all the cast devices. Thus the google cast device plays the mp3 notification from your device hosting node-red.
-If the nothification has to be played from an url then use **msg.mediaUrl** and has precedence over **msg.playMessage**.
+If the notification has to be played from an url then use **msg.mediaUrl**.
+The mediaUrl has priority over **msg.playMessage**.
 
-The played message is then available to anyone by calling the url.
+A played notification message is available to anyone by calling the url.
 If you play the notifiation ** this is a test** then you will find a file in the cache folder named like 
 ```
 THIS_IS_A_TEST-en-slow.mp3
