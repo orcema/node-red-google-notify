@@ -30,6 +30,62 @@ module.exports = function (RED) {
       res.json(languages || []);
     });
 
+    RED.httpAdmin.get('/gn-contentTypes', function (req, res) {
+      res.json({
+        youtube: 'youtube/video',
+        // official supported https://developers.google.com/cast/docs/media
+        aac: 'video/mp4',
+        mp3: 'audio/mp3',
+        m4a: 'audio/mp4',
+        mpa: 'audio/mpeg',
+        mp4: 'audio/mp4',
+        webm: 'video/webm',
+        vp8: 'video/webm',
+        wav: 'audio/vnd.wav',
+        bmp: 'image/bmp',
+        gif: 'image/gif',
+        jpeg: 'image/jpeg',
+        jpg: 'image/jpeg ',
+        jpe: 'image/jpeg',
+        png: 'image/png',
+        webp: 'image/webp',
+        // additional other formats
+        au: 'audio/basic',
+        snd: 'audio/basic',
+        mp2: 'audio/x-mpeg',
+        mid: 'audio/mid',
+        midi: 'audio/mid',
+        rmi: 'audio/mid',
+        aif: 'audio/x-aiff',
+        aiff: 'audio/x-aiff',
+        aifc: 'audio/x-aiff',
+        mov: 'video/quicktime',
+        qt: 'video/quicktime',
+        flv: 'video/x-flv',
+        mpeg: 'video/mpeg',
+        mpg: 'video/mpeg',
+        mpe: 'video/mpeg',
+        mjpg: 'video/x-motion-jpeg',
+        mjpeg: 'video/x-motion-jpeg',
+        '3gp': 'video/3gpp',
+        avi: 'video/x-msvideo',
+        wmv: 'video/x-ms-wmv',
+        movie: 'video/x-sgi-movie',
+        m3u: 'audio/x-mpegurl',
+        ogg: 'audio/ogg',
+        ogv: 'audio/ogg',
+        ra: 'audio/vnd.rn-realaudio', // audio/x-pn-realaudio'
+        stream: 'audio/x-qt-stream',
+        rpm: 'audio/x-pn-realaudio-plugin',
+        ram: 'audio/x-pn-realaudio',
+        m3u8: 'application/x-mpegURL',
+        svg: 'image/svg',
+        tiff: 'image/tiff',
+        tif: 'image/tiff',
+        ico: 'image/x-icon'
+      });
+    });
+
     //Known issue: when 'language' is Default/Auto, this will fail & return undefined
     this.mediaServerPortInUse = (nodeServer.mediaServerPort ? nodeServer.mediaServerPort : defaultServerPort);
     this.cacheFolderInUse = (nodeServer.cacheFolder ? nodeServer.cacheFolder : defaultCacheFolder);
@@ -65,10 +121,10 @@ module.exports = function (RED) {
   function GoogleNotify(nodeInFlow) {
     RED.nodes.createNode(this, nodeInFlow);
     this.nodeInFlow = nodeInFlow;
-    if(this.nodeInFlow.language=='config') this.nodeInFlow.language=undefined;
-    if(this.nodeInFlow.playVolumeLevel=='') this.nodeInFlow.playVolumeLevel=undefined;
-    if(this.nodeInFlow.speakSlow=='config') this.nodeInFlow.speakSlow=undefined;
-    if(this.nodeInFlow.playMessage=='') this.nodeInFlow.playMessage=undefined;
+    if (this.nodeInFlow.language == 'config') this.nodeInFlow.language = undefined;
+    if (this.nodeInFlow.playVolumeLevel == '') this.nodeInFlow.playVolumeLevel = undefined;
+    if (this.nodeInFlow.speakSlow == 'config') this.nodeInFlow.speakSlow = undefined;
+    if (this.nodeInFlow.playMessage == '') this.nodeInFlow.playMessage = undefined;
 
     const thisNode = this;
     const thisNodeServerInstance = RED.nodes.getNode(nodeInFlow.server);
@@ -79,16 +135,15 @@ module.exports = function (RED) {
     }
 
     thisNode.on('input', function (msg) {
+      msg.speakSlow = (msg.hasOwnProperty('speakSlow') ? msg.speakSlow : this.nodeInFlow.speakSlow);
       msg.playVolumeLevel = (msg.hasOwnProperty('playVolumeLevel') ? msg.playVolumeLevel : this.nodeInFlow.playVolumeLevel);
       msg.playMessage = (msg.hasOwnProperty('playMessage') ? msg.playMessage : this.nodeInFlow.playMessage);
       msg.language = (msg.hasOwnProperty('language') ? msg.language : this.nodeInFlow.language);
-      msg.speakSlow = (msg.hasOwnProperty('speakSlow') ? msg.speakSlow : this.nodeInFlow.speakSlow);
       msg.mediaUrl = (msg.hasOwnProperty('mediaUrl') ? msg.mediaUrl : this.nodeInFlow.mediaUrl);
-
+      msg.mediaType = (msg.hasOwnProperty('mediaType') ? msg.mediaType : this.nodeInFlow.mediaType);
       msg.mediaServerUrl = (msg.hasOwnProperty('mediaServerUrl') ? msg.mediaServerUrl : this.nodeInFlow.mediaServerUrl);
       msg.mediaServerPort = (msg.hasOwnProperty('mediaServerPort') ? msg.mediaServerPort : this.nodeInFlow.mediaServerPort);
       msg.cacheFolder = (msg.hasOwnProperty('cacheFolder') ? msg.cacheFolder : this.nodeInFlow.cacheFolder);
-      
       //Validate config node
       if (thisNodeServerInstance === null || thisNodeServerInstance === undefined) {
         thisNode.status({

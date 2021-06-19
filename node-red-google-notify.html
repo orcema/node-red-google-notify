@@ -175,10 +175,14 @@
       mediaUrl: {
         value: ""
       },
+      mediaType: {
+        value: "mp3"
+      },
 
     },
     inputs: 1,
     outputs: 1,
+    icon: "font-awesome/fa-comments",
     label: function () {
       return this.configname || this.name || "Google notify";
     },
@@ -187,10 +191,21 @@
       var options = $("#node-input-language");
       //Calling the API built by NodeJS code
       options.append($("<option />").val('config').text('use config'));
+      console.log('debugger')
       $.getJSON('/languages', function (languages) {
         $.each(languages, function (l, language) {
           options.append($("<option />").val(language.key).text(language.value));
           options.val(node.language);
+        });
+      });
+
+      var optionsMediaTypes = $("#node-input-mediaType");
+      //Calling the API built by NodeJS code
+      $.getJSON('/gn-contentTypes', function (mediaTypes) {
+        console.log('debugger')
+        $.each(mediaTypes, function (value, mediaType) {
+          optionsMediaTypes.append($("<option />").val(value).text(mediaType));
+          optionsMediaTypes.val(node.mediaType);
         });
       });
     },
@@ -250,5 +265,15 @@
       <p class="overridableInstruction"><i class="fa fa-arrow-circle-right"></i> <i>overridable with <b>msg.mediaUrl</b> </i></p>
 
     </div>
+
+    <!-- <div class="form-row">
+      <label for="node-input-mediaType" style="white-space: nowrap;"><i class="fa fa-film" ></i> Media Type</label>
+      <select id="node-input-mediaType" style="width:70%;">
+      </select>
+      <p class="overridableInstruction"><i class="fa fa-arrow-circle-right"></i> <i>overridable with <b>msg.mediaType</b> </i></p>
+    </div> -->
+
   </div>
+
+
 </script>
