@@ -156,7 +156,7 @@
         value: "",
         type: "google-notify-config"
       },
-      name: {
+      label: {
         value: ""
       },
       playVolumeLevel: {
@@ -184,7 +184,7 @@
     outputs: 1,
     icon: "font-awesome/fa-comments",
     label: function () {
-      return this.configname || this.name || "Google notify";
+      return this.label ||this.mediaUrl||this.playMessage||this.configname || "Google notify";
     },
     oneditprepare: function () {
       var node = this;
@@ -222,8 +222,8 @@
   </div>
 
   <div class="form-row">
-    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-    <input type="text" id="node-input-name" placeholder="Google notify" style="width: 70%;">
+    <label for="node-input-label"><i class="icon-tag"></i> Label</label>
+    <input type="text" id="node-input-label" style="width: 70%;">
   </div>
 
   <div class="form-row">

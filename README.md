@@ -3,7 +3,7 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
-| 1.2.0     | play media url as notification and GUI update 
+| 1.2.1     | play media url as notification and GUI update 
 | 1.1.2     | user overridable media server url
 | 1.0.1     | Initial  release
 

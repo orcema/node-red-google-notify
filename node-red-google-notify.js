@@ -103,7 +103,7 @@ module.exports = function (RED) {
       nodeServer.playVolumeLevel
     );
 
-    this.googlehomenotifier.setMaxListeners(Infinity);
+    // this.googlehomenotifier.setMaxListeners(Infinity);
 
 
     //Build another API to auto detect IP Addresses
@@ -163,7 +163,8 @@ module.exports = function (RED) {
       node_status("preparing voice message")
 
       console.log("new message -----");
-
+      msg.statusUpdate = node_status;
+      msg.originNode = thisNode;
       thisNodeServerInstance.googlehomenotifier
         .notify(msg)
         .then(devicePlaySettings => {
@@ -174,13 +175,13 @@ module.exports = function (RED) {
           node_status_error(e));
     });
 
-    thisNodeServerInstance.googlehomenotifier.on('status', function (message) {
-      node_status(message);
-    });
+    // thisNodeServerInstance.googlehomenotifier.on('status', function (message) {
+    //   node_status(message);
+    // });
 
-    thisNodeServerInstance.googlehomenotifier.on('error', function (message) {
-      node_status_error(message);
-    });
+    // thisNodeServerInstance.googlehomenotifier.on('error', function (message) {
+    //   node_status_error(message);
+    // });
 
     node_status_ready();
 
