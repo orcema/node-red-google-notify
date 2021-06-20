@@ -136,6 +136,9 @@ module.exports = function (RED) {
 
     thisNode.on('input', function (msg) {
       msg.speakSlow = (msg.hasOwnProperty('speakSlow') ? msg.speakSlow : this.nodeInFlow.speakSlow);
+      if(msg.speakSlow!=undefined && typeof(msg.speakSlow)!='boolean'){
+        msg.speakSlow = msg.speakSlow.toLowerCase() =='true'?true:false;
+      }
       msg.playVolumeLevel = (msg.hasOwnProperty('playVolumeLevel') ? msg.playVolumeLevel : this.nodeInFlow.playVolumeLevel);
       msg.playMessage = (msg.hasOwnProperty('playMessage') ? msg.playMessage : this.nodeInFlow.playMessage);
       msg.language = (msg.hasOwnProperty('language') ? msg.language : this.nodeInFlow.language);
