@@ -58,9 +58,9 @@
       var node = this;
       var options = $("#node-config-input-language");
       //Calling the API built by NodeJS code
-      $.getJSON('/languages', function (languages) {
+      $.getJSON('/gn-languages', function (languages) {
         $.each(languages, function (l, language) {
-          options.append($("<option />").val(language.key).text(language.value));
+          options.append($("<option />").val(l).text(language));
           options.val(node.language);
         });
       });
@@ -192,9 +192,10 @@
       //Calling the API built by NodeJS code
       options.append($("<option />").val('config').text('use config'));
       console.log('debugger')
-      $.getJSON('/languages', function (languages) {
+      $.getJSON('/gn-languages', function (languages) {
+        console.log('est');
         $.each(languages, function (l, language) {
-          options.append($("<option />").val(language.key).text(language.value));
+          options.append($("<option />").val(l).text(language));
           options.val(node.language);
         });
       });
