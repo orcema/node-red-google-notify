@@ -3,6 +3,7 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
+| 1.3.0     | notifications queueing / priority and stop playing  
 | 1.2.2     | play media url as notification and GUI update 
 | 1.1.2     | user overridable media server url
 | 1.0.1     | Initial  release
@@ -26,14 +27,22 @@ THIS_IS_A_TEST-en-slow.mp3
 
 This mp3 audio notification is then available at http://[ip]:[port]/THIS_IS_A_TEST-en-slow.mp3
 
+While playing a notificaiton new arriving notifications are queued for processing.
+
+Important notifications are played immediatly and the current played notification is stopped and queued.
+
 
 ### Features:
-* The notification is played at defined volume level and the inital **volume level** of the casting device is **restored** after notification has been played.
-The notification level can be defined in the device configuration and overriden anytime using **msg.playVolumeLevel**
+* **msg.playVolumeLevel**: The notification is played at defined volume level and the inital *volume level** of the casting device is **restored** after notification has been played.
+The notification level can be defined in the device configuration and overriden anytime using msg.playVolumeLevel
 
-* The notification play speed can be defined as normal or slow. The speed can be set as default value in the node config or altered by the message **msg.speakSlow = true**
+* **msg.speakSlow**: The notification play speed can be defined as normal or slow. The speed can be set as default value in the node config or altered by the message msg.speakSlow = true
 
-* The language can also be altered with **msg.language** The list of available languages can be checked <a href="https://github.com/orcema/node-red-google-notify/blob/master/languages.js">here</a>
+* **msg.language**: The language can also be altered with msg.language The list of available languages can be checked <a href="https://github.com/orcema/node-red-google-notify/blob/master/languages.js">here</a>
+
+* **msg.important**: If a new arriving notificaiton has set msg.important=true then current playing notificaiton is stopped and queued and the important notification is processed immediately. After having played the important notifications the queued notification is replayed again. 
+
+* **msg.command**: the value msg.command="stop" will stop the currently played notification and clear the queue.
 
 ## notifiction play configuration sample
 [<img src="assets/msgConfigSample.png" height="500"/>](image.png)
