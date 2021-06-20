@@ -134,6 +134,22 @@ module.exports = function (RED) {
       return;
     }
 
+    thisNode.node_status = function (message) {
+      thisNode.status({
+        fill: "blue",
+        shape: "dot",
+        text: message
+      });
+    };
+
+    thisNode.node_status_ready = function() {
+      thisNode.status({
+        fill: "green",
+        shape: "dot",
+        text: "ready"
+      });
+    }
+
     thisNode.on('input', function (msg) {
       msg.speakSlow = (msg.hasOwnProperty('speakSlow') ? msg.speakSlow : this.nodeInFlow.speakSlow);
       if (msg.speakSlow != undefined && typeof (msg.speakSlow) != 'boolean') {
@@ -163,28 +179,27 @@ module.exports = function (RED) {
         return;
       }
 
-      node_status("preparing voice message")
+      thisNode.node_status("preparing voice message")
 
       console.log("new message -----");
-      msg.statusUpdate = node_status;
-      msg.originNode = thisNode;
-      // thisNodeServerInstance.googlehomenotifier
-      //   .notify(msg)
-      //   .then(devicePlaySettings => {
-      //     node_status_ready();
-      //     thisNode.send(devicePlaySettings);
-      //   })
-      //   .catch(e =>
-      //     node_status_error(e)
-      //   );
-      thisNodeServerInstance.googlehomenotifier.notify(msg,(error,devicePlaySettings)=>{
-        if(error){
-          node_status_error(error)
-        }else{
-          node_status_ready();
-          thisNode.send(devicePlaySettings);
-        }
-      })
+      msg.sourceNode = thisNode;
+
+      switch (msg.command) {
+        case 'stop':
+          thisNodeServerInstance.googlehomenotifier.stopPlaying(msg);
+          break;
+
+        default:
+          thisNodeServerInstance.googlehomenotifier.notify(msg, (error, devicePlaySettings) => {
+            if (error) {
+              node_status_error(error)
+            } else {
+              thisNode.node_status_ready();
+              thisNode.send(devicePlaySettings);
+            }
+          });
+      }
+
     });
 
     // thisNodeServerInstance.googlehomenotifier.on('status', function (message) {
@@ -195,28 +210,16 @@ module.exports = function (RED) {
     //   node_status_error(message);
     // });
 
-    node_status_ready();
+    thisNode.node_status_ready();
 
     /* #region  helpers */
 
     /* #endregion */
 
     //#region node notifications
-    function node_status(message) {
-      thisNode.status({
-        fill: "blue",
-        shape: "dot",
-        text: message
-      });
-    }
 
-    function node_status_ready() {
-      thisNode.status({
-        fill: "green",
-        shape: "dot",
-        text: "ready"
-      });
-    }
+
+
 
     function node_status_error(message) {
       thisNode.status({
