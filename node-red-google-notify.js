@@ -136,8 +136,8 @@ module.exports = function (RED) {
 
     thisNode.on('input', function (msg) {
       msg.speakSlow = (msg.hasOwnProperty('speakSlow') ? msg.speakSlow : this.nodeInFlow.speakSlow);
-      if(msg.speakSlow!=undefined && typeof(msg.speakSlow)!='boolean'){
-        msg.speakSlow = msg.speakSlow.toLowerCase() =='true'?true:false;
+      if (msg.speakSlow != undefined && typeof (msg.speakSlow) != 'boolean') {
+        msg.speakSlow = msg.speakSlow.toLowerCase() == 'true' ? true : false;
       }
       msg.playVolumeLevel = (msg.hasOwnProperty('playVolumeLevel') ? msg.playVolumeLevel : this.nodeInFlow.playVolumeLevel);
       msg.playMessage = (msg.hasOwnProperty('playMessage') ? msg.playMessage : this.nodeInFlow.playMessage);
@@ -168,14 +168,23 @@ module.exports = function (RED) {
       console.log("new message -----");
       msg.statusUpdate = node_status;
       msg.originNode = thisNode;
-      thisNodeServerInstance.googlehomenotifier
-        .notify(msg)
-        .then(devicePlaySettings => {
+      // thisNodeServerInstance.googlehomenotifier
+      //   .notify(msg)
+      //   .then(devicePlaySettings => {
+      //     node_status_ready();
+      //     thisNode.send(devicePlaySettings);
+      //   })
+      //   .catch(e =>
+      //     node_status_error(e)
+      //   );
+      thisNodeServerInstance.googlehomenotifier.notify(msg,(error,devicePlaySettings)=>{
+        if(error){
+          node_status_error(error)
+        }else{
           node_status_ready();
           thisNode.send(devicePlaySettings);
-        })
-        .catch(e =>
-          node_status_error(e));
+        }
+      })
     });
 
     // thisNodeServerInstance.googlehomenotifier.on('status', function (message) {
