@@ -4,9 +4,6 @@ const serverIP = require("ip").address();
 const defaultServerPort = "8098";
 const defaultCacheFolder = "/tmp"
 
-
-
-
 module.exports = function (RED) {
 
   // Configuration node
@@ -179,8 +176,6 @@ module.exports = function (RED) {
         return;
       }
 
-      thisNode.node_status("preparing voice message")
-
       console.log("new message -----");
       msg.sourceNode = thisNode;
 
@@ -202,14 +197,6 @@ module.exports = function (RED) {
 
     });
 
-    // thisNodeServerInstance.googlehomenotifier.on('status', function (message) {
-    //   node_status(message);
-    // });
-
-    // thisNodeServerInstance.googlehomenotifier.on('error', function (message) {
-    //   node_status_error(message);
-    // });
-
     thisNode.node_status_ready();
 
     /* #region  helpers */
@@ -217,10 +204,6 @@ module.exports = function (RED) {
     /* #endregion */
 
     //#region node notifications
-
-
-
-
     function node_status_error(message) {
       thisNode.status({
         fill: "red",
