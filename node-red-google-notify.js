@@ -9,18 +9,6 @@ module.exports = function (RED) {
   // Configuration node
   function GoogleNotifyConfig(nodeServer) {
     RED.nodes.createNode(this, nodeServer);
-    //Prepare language Select Box
-    var obj = require('./languages');
-    //map to Array:
-    var languages = [];
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        languages.push({
-          key: key,
-          value: obj[key]
-        });
-      }
-    };
 
     //Build an API for config node HTML to use
     RED.httpAdmin.get('/gn-languages', function (req, res) {
