@@ -191,24 +191,23 @@
       var options = $("#node-input-language");
       //Calling the API built by NodeJS code
       options.append($("<option />").val('config').text('use config'));
-      console.log('debugger')
       $.getJSON('/gn-languages', function (languages) {
-        console.log('est');
+        console.log('loaded languages:',languages);
         $.each(languages, function (l, language) {
           options.append($("<option />").val(l).text(language));
           options.val(node.language);
         });
       });
 
-      var optionsMediaTypes = $("#node-input-mediaType");
-      //Calling the API built by NodeJS code
-      $.getJSON('/gn-contentTypes', function (mediaTypes) {
-        console.log('debugger')
-        $.each(mediaTypes, function (value, mediaType) {
-          optionsMediaTypes.append($("<option />").val(value).text(mediaType));
-          optionsMediaTypes.val(node.mediaType);
-        });
-      });
+      // var optionsMediaTypes = $("#node-input-mediaType");
+      // //Calling the API built by NodeJS code
+      // $.getJSON('/gn-contentTypes', function (mediaTypes) {
+      //   console.log('debugger')
+      //   $.each(mediaTypes, function (value, mediaType) {
+      //     optionsMediaTypes.append($("<option />").val(value).text(mediaType));
+      //     optionsMediaTypes.val(node.mediaType);
+      //   });
+      // });
     },
     oneditsave: function () {
       this.language = $("#node-input-language").val();
