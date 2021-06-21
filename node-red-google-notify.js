@@ -11,7 +11,7 @@ module.exports = function (RED) {
     RED.nodes.createNode(this, nodeServer);
 
     //Build an API for config node HTML to use
-    RED.httpAdmin.get('/gn-languages', function (req, res) {
+    RED.httpNode.get('/gn-languages', function (req, res) {
       res.json({
         'af': 'Afrikaans',
         'sq': 'Albanian',
@@ -120,61 +120,61 @@ module.exports = function (RED) {
       });
     });
 
-    RED.httpAdmin.get('/gn-contentTypes', function (req, res) {
-      res.json({
-        youtube: 'youtube/video',
-        // official supported https://developers.google.com/cast/docs/media
-        aac: 'video/mp4',
-        mp3: 'audio/mp3',
-        m4a: 'audio/mp4',
-        mpa: 'audio/mpeg',
-        mp4: 'audio/mp4',
-        webm: 'video/webm',
-        vp8: 'video/webm',
-        wav: 'audio/vnd.wav',
-        bmp: 'image/bmp',
-        gif: 'image/gif',
-        jpeg: 'image/jpeg',
-        jpg: 'image/jpeg ',
-        jpe: 'image/jpeg',
-        png: 'image/png',
-        webp: 'image/webp',
-        // additional other formats
-        au: 'audio/basic',
-        snd: 'audio/basic',
-        mp2: 'audio/x-mpeg',
-        mid: 'audio/mid',
-        midi: 'audio/mid',
-        rmi: 'audio/mid',
-        aif: 'audio/x-aiff',
-        aiff: 'audio/x-aiff',
-        aifc: 'audio/x-aiff',
-        mov: 'video/quicktime',
-        qt: 'video/quicktime',
-        flv: 'video/x-flv',
-        mpeg: 'video/mpeg',
-        mpg: 'video/mpeg',
-        mpe: 'video/mpeg',
-        mjpg: 'video/x-motion-jpeg',
-        mjpeg: 'video/x-motion-jpeg',
-        '3gp': 'video/3gpp',
-        avi: 'video/x-msvideo',
-        wmv: 'video/x-ms-wmv',
-        movie: 'video/x-sgi-movie',
-        m3u: 'audio/x-mpegurl',
-        ogg: 'audio/ogg',
-        ogv: 'audio/ogg',
-        ra: 'audio/vnd.rn-realaudio', // audio/x-pn-realaudio'
-        stream: 'audio/x-qt-stream',
-        rpm: 'audio/x-pn-realaudio-plugin',
-        ram: 'audio/x-pn-realaudio',
-        m3u8: 'application/x-mpegURL',
-        svg: 'image/svg',
-        tiff: 'image/tiff',
-        tif: 'image/tiff',
-        ico: 'image/x-icon'
-      });
-    });
+    // RED.httpNode.get('/gn-contentTypes', function (req, res) {
+    //   res.json({
+    //     youtube: 'youtube/video',
+    //     // official supported https://developers.google.com/cast/docs/media
+    //     aac: 'video/mp4',
+    //     mp3: 'audio/mp3',
+    //     m4a: 'audio/mp4',
+    //     mpa: 'audio/mpeg',
+    //     mp4: 'audio/mp4',
+    //     webm: 'video/webm',
+    //     vp8: 'video/webm',
+    //     wav: 'audio/vnd.wav',
+    //     bmp: 'image/bmp',
+    //     gif: 'image/gif',
+    //     jpeg: 'image/jpeg',
+    //     jpg: 'image/jpeg ',
+    //     jpe: 'image/jpeg',
+    //     png: 'image/png',
+    //     webp: 'image/webp',
+    //     // additional other formats
+    //     au: 'audio/basic',
+    //     snd: 'audio/basic',
+    //     mp2: 'audio/x-mpeg',
+    //     mid: 'audio/mid',
+    //     midi: 'audio/mid',
+    //     rmi: 'audio/mid',
+    //     aif: 'audio/x-aiff',
+    //     aiff: 'audio/x-aiff',
+    //     aifc: 'audio/x-aiff',
+    //     mov: 'video/quicktime',
+    //     qt: 'video/quicktime',
+    //     flv: 'video/x-flv',
+    //     mpeg: 'video/mpeg',
+    //     mpg: 'video/mpeg',
+    //     mpe: 'video/mpeg',
+    //     mjpg: 'video/x-motion-jpeg',
+    //     mjpeg: 'video/x-motion-jpeg',
+    //     '3gp': 'video/3gpp',
+    //     avi: 'video/x-msvideo',
+    //     wmv: 'video/x-ms-wmv',
+    //     movie: 'video/x-sgi-movie',
+    //     m3u: 'audio/x-mpegurl',
+    //     ogg: 'audio/ogg',
+    //     ogv: 'audio/ogg',
+    //     ra: 'audio/vnd.rn-realaudio', // audio/x-pn-realaudio'
+    //     stream: 'audio/x-qt-stream',
+    //     rpm: 'audio/x-pn-realaudio-plugin',
+    //     ram: 'audio/x-pn-realaudio',
+    //     m3u8: 'application/x-mpegURL',
+    //     svg: 'image/svg',
+    //     tiff: 'image/tiff',
+    //     tif: 'image/tiff',
+    //     ico: 'image/x-icon'
+    //   });
+    // });
 
     //Known issue: when 'language' is Default/Auto, this will fail & return undefined
     this.mediaServerPortInUse = (nodeServer.mediaServerPort ? nodeServer.mediaServerPort : defaultServerPort);
