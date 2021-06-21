@@ -11,7 +11,7 @@ module.exports = function (RED) {
     RED.nodes.createNode(this, nodeServer);
 
     //Build an API for config node HTML to use
-    RED.httpNode.get('/gn-languages', function (req, res) {
+    RED.httpAdmin.get('/gn-languages', function (req, res) {
       res.json({
         'af': 'Afrikaans',
         'sq': 'Albanian',
@@ -120,7 +120,7 @@ module.exports = function (RED) {
       });
     });
 
-    // RED.httpNode.get('/gn-contentTypes', function (req, res) {
+    // RED.httpAdmin.get('/gn-contentTypes', function (req, res) {
     //   res.json({
     //     youtube: 'youtube/video',
     //     // official supported https://developers.google.com/cast/docs/media
