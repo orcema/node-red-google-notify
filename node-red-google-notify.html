@@ -1,19 +1,21 @@
 <style>
-  .group{
-    border:1px solid blue;
+  .group {
+    border: 1px solid blue;
     border-radius: 5px;
     box-shadow: 5px 5px 5px;
     padding: 10px;
-    margin-top:30px;
+    margin-top: 30px;
   }
-  .groupLabel{
+
+  .groupLabel {
     transform: translateY(-20px);
     background-color: white;
     text-align: center;
     width: 150px;
   }
-  .overridableInstruction{
-    padding-left:15px;
+
+  .overridableInstruction {
+    padding-left: 15px;
     font-size: smaller;
   }
 </style>
@@ -85,11 +87,11 @@
             minLength: 0,
             close: function (event, ui) {
               $("#node-config-input-ipaddress").autocomplete("destroy");
-              const selectedDevice = ipaddresses.find(device=>device.value==$("#node-config-input-ipaddress").val());
-              if(selectedDevice){
+              const selectedDevice = ipaddresses.find(device => device.value == $("#node-config-input-ipaddress").val());
+              if (selectedDevice) {
                 $("#node-config-input-name").val(selectedDevice.device);
               }
-              
+
             }
           }).autocomplete("search", "");
         });
@@ -163,8 +165,8 @@
         value: "",
         validate: RED.validators.regex(/^(\s*|[0-9]|[1-9][0-9]|100)$/)
       },
-      playMessage:{
-        value:""
+      playMessage: {
+        value: ""
       },
       language: {
         value: "config"
@@ -184,7 +186,7 @@
     outputs: 1,
     icon: "font-awesome/fa-comments",
     label: function () {
-      return this.label ||this.mediaUrl||this.playMessage||this.configname || "Google notify";
+      return this.label || this.mediaUrl || this.playMessage || this.configname || "Google notify";
     },
     oneditprepare: function () {
       var node = this;
@@ -192,7 +194,7 @@
       //Calling the API built by NodeJS code
       options.append($("<option />").val('config').text('use config'));
       $.getJSON('/gn-languages', function (languages) {
-        console.log('loaded languages:',languages);
+        console.log('loaded languages:', languages);
         $.each(languages, function (l, language) {
           options.append($("<option />").val(l).text(language));
           options.val(node.language);
@@ -277,3 +279,68 @@
 
 
 </script>
+
+<script type="text/html" data-help-name="google-notify">
+  <p>With this node you can cast text notification to any google cast device (e.g. google home, chrome cast ...) </p>
+  
+  <h3>Inputs</h3>
+      <dl class="message-properties">
+          <dt>playMessage <span class="property-type">string</span></dt>
+          <dd> the voice message to play </dd>
+          <dt>mediaUrl <span class="property-type">string</span></dt>
+          <dd> url to a media file on an external media server</dd>
+          <dt>command <span class="property-type">string</span></dt>
+          <dd> [stop] => stop currently played message and empty the queue with pending messages </dd>
+          <dt>playVolumeLevel <span class="property-type">number</span></dt>
+          <dd> [0-100] the volume level to be set while playing the voice message. This value overrides the value set in the node </dd>
+          <dt>speakSlow <span class="property-type">boolean</span></dt>
+          <dd> should the voice message played at slow speed </dd>
+          <dt>important <span class="property-type">boolean</span></dt>
+          <dd> stop currently playing voice message and play this voice message </dd>
+
+      </dl>
+  
+   <!-- <h3>Outputs</h3>
+       <ol class="node-ports">
+           <li>Standard output
+               <dl class="message-properties">
+                   <dt>payload <span class="property-type">string</span></dt>
+                   <dd>the standard output of the command.</dd>
+               </dl>
+           </li>
+           <li>Standard error
+               <dl class="message-properties">
+                   <dt>payload <span class="property-type">string</span></dt>
+                   <dd>the standard error of the command.</dd>
+               </dl>
+           </li>
+       </ol> -->
+  
+  <h3>Details</h3>
+
+      <p>
+      With this node you can cast text notification to any google cast device (e.g. google home, chrome cast ...) The text of the <code>msg.playMessage</code> is converted to mp3 audio and stored in the cache folder. Each cast device can have it's own local media server or the same media server can be shared over all the cast devices. Thus the google cast device plays the mp3 notification from your device hosting node-red. If the notification has to be played from an url then use <code>msg.mediaUrl</code>. The mediaUrl has priority over <code>msg.playMessage</code>.
+
+      A played notification message is available to anyone by calling the url. 
+      </p><p>
+      If you play the notifiation <b> this is a test</b> then you will find a file in the cache folder named like <b>THIS_IS_A_TEST-en-slow.mp3</b>
+      </p> 
+      <ul>
+        <li>THIS_IS_A_TEST -> notification text (msg.payload)</li>
+        <li>en -> english language</li>
+        <li>slow -> speak speed can be slow/normal</li>
+        <li>This mp3 audio notification is then available at http://[ip]:[port]/THIS_IS_A_TEST-en-slow.mp3</li>
+      </ul>
+      <p>
+      While playing a notificaiton new arriving notifications are queued for processing.
+      </p><p>
+      Important notifications are played immediatly and the current played notification is stopped and queued.
+      </p>
+
+  
+  <h3>References</h3>
+      <ul>
+          <li><a href="https://www.npmjs.com/package/node-red-google-notify">NPM</a> repository for the node</li>
+          <li><a href="https://github.com/orcema/node-red-google-notify">GitHub</a> repository for the node</li>
+      </ul>
+  </script>
