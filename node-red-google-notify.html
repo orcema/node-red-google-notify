@@ -62,7 +62,7 @@
       //Calling the API built by NodeJS code
       $.getJSON('/gn-languages', function (languages) {
         $.each(languages, function (l, language) {
-          options.append($("<option />").val(l).text(language));
+          options.append($("<option />").val(language.key).text(language.value));
           options.val(node.language);
         });
       });
