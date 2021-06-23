@@ -6,7 +6,7 @@ const defaultCacheFolder = "/tmp"
 
 module.exports = function (RED) {
 
-    loadLanguages(RED);
+    // loadLanguages(RED);
     function GoogleNotifyConfig(nodeServer) {
     RED.nodes.createNode(this, nodeServer);
 
@@ -205,23 +205,23 @@ module.exports = function (RED) {
 
 
   /* #region node helpers */
-  function loadLanguages(RED) {
-    var obj = require('./assets/languages.js');
-    //map to Array:
-    var gnLanguages = [];
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        gnLanguages.push({
-          key: key,
-          value: obj[key]
-        });
-      }
-    };
-    //Build an API for config node HTML to use
-    RED.httpAdmin.get('/gn-languages', function (req, res) {
-      res.json(gnLanguages || []);
-    });
-  }
+  // function loadLanguages(RED) {
+  //   var obj = require('./assets/languages.js');
+  //   //map to Array:
+  //   var gnLanguages = [];
+  //   for (var key in obj) {
+  //     if (obj.hasOwnProperty(key)) {
+  //       gnLanguages.push({
+  //         key: key,
+  //         value: obj[key]
+  //       });
+  //     }
+  //   };
+  //   // //Build an API for config node HTML to use
+  //   // RED.httpAdmin.get('/gn-languages', function (req, res) {
+  //   //   res.json(gnLanguages || []);
+  //   // });
+  // }
 
   function discoverIpAddresses(serviceType, discoveryCallback) {
     var ipaddresses = [];

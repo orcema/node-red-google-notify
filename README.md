@@ -3,7 +3,7 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
-| 1.3.5     | fix for privilege issue reading language file  
+| 1.4.0     | fix for language selection issue  
 | 1.3.0     | notifications queueing / priority and stop playing  
 | 1.2.2     | play media url as notification and GUI update 
 | 1.1.2     | user overridable media server url
