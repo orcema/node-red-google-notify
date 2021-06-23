@@ -1,6 +1,6 @@
 {
   "name": "node-red-google-notify",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "text notification to google home or google cast",
   "main": "node-red-google-notify.js",
   "node-red": {
