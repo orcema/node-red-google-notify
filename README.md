@@ -3,6 +3,7 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
+| 1.4.2     | install instructions for node-red as add-on on hassio
 | 1.4.1     | fix for language selection issue  
 | 1.3.0     | notifications queueing / priority and stop playing  
 | 1.2.2     | play media url as notification and GUI update 
@@ -52,5 +53,10 @@ The notification level can be defined in the device configuration and overriden 
 * IP Address: ip address of the casting device
 * url: optional url if running within docker, else leave blank
 
-
 [<img src="assets/deviceConfigSample.png" height="500"/>](image.png)
+
+
+## Install instructions for node-red running as **add-on on Hassio**
+Do not install from the "Manage Palette" within node-red but use the config file of the node-red add-on
+
+[<img src="assets/hassioInstallInstructions.png" height="500"/>](image.png)
