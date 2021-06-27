@@ -3,6 +3,7 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
+| 1.4.3     | new feature to clear all queues with pending notification & optimisations in pending messages management
 | 1.4.2     | install instructions for node-red as add-on on hassio
 | 1.4.1     | fix for language selection issue  
 | 1.3.0     | notifications queueing / priority and stop playing  
@@ -45,6 +46,8 @@ The notification level can be defined in the device configuration and overriden 
 * **msg.important**: If a new arriving notificaiton has set msg.important=true then current playing notificaiton is stopped and queued and the important notification is processed immediately. After having played the important notifications the queued notification is replayed again. 
 
 * **msg.command**: the value msg.command="stop" will stop the currently played notification and clear the queue.
+
+* **msg.clearPending**: the value msg.clearPending=true will will remove all the pending notifications from the queue.
 
 ## notifiction play configuration sample
 [<img src="assets/msgConfigSample.png" height="500"/>](image.png)
