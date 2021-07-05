@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "bonjour": "^3.5.0",
-    "file-server": "github:orcema/file-server",
+    "file-server": "git://github.com/orcema/file-server",
     "google-notify": "1.4.5"
   },
   "bugs": {
