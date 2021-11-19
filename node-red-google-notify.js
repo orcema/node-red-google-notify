@@ -6,8 +6,8 @@ const defaultCacheFolder = "/tmp"
 
 module.exports = function (RED) {
 
-    // loadLanguages(RED);
-    function GoogleNotifyConfig(nodeServer) {
+  // loadLanguages(RED);
+  function GoogleNotifyConfig(nodeServer) {
     RED.nodes.createNode(this, nodeServer);
 
 
@@ -124,7 +124,7 @@ module.exports = function (RED) {
       });
     };
 
-    thisNode.node_status_ready = function() {
+    thisNode.node_status_ready = function () {
       thisNode.status({
         fill: "green",
         shape: "dot",
@@ -139,6 +139,9 @@ module.exports = function (RED) {
       }
       msg.playVolumeLevel = (msg.hasOwnProperty('playVolumeLevel') ? msg.playVolumeLevel : this.nodeInFlow.playVolumeLevel);
       msg.playMessage = (msg.hasOwnProperty('playMessage') ? msg.playMessage : this.nodeInFlow.playMessage);
+      if (msg.playMessage == undefined && typeof (msg.payload) == 'string') {
+        msg.playMessage = msg.payload;
+      }
       msg.language = (msg.hasOwnProperty('language') ? msg.language : this.nodeInFlow.language);
       msg.mediaUrl = (msg.hasOwnProperty('mediaUrl') ? msg.mediaUrl : this.nodeInFlow.mediaUrl);
       msg.mediaType = (msg.hasOwnProperty('mediaType') ? msg.mediaType : this.nodeInFlow.mediaType);
