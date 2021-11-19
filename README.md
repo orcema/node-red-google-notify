@@ -3,8 +3,8 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
-| 1.4.7     | null pointer exception fix
-            | when missing playMessage on msg object and missing default text to play at node level then the payload text will be used as message to announce
+| 1.4.7     | fix error and enhance text message selection
+when missing playMessage on msg object and missing default text to play at node level then the payload text will be used as message to be announce
 | 1.4.6     | fix for queue filling up with pending notifications after error and fix for internationalisation
 | 1.4.3     | new feature to clear all queues with pending notification & optimisations in pending messages management
 | 1.4.2     | install instructions for node-red as add-on on hassio
