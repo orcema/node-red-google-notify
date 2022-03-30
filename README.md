@@ -3,6 +3,7 @@
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
+| 1.4.8     | fix unauthenticated git protocol on port 9418 is no longer supported
 | 1.4.7     | fix error and enhance voice message selection. When missing playMessage on msg object and missing default text to play at node level then the payload text will be used as voice message
 | 1.4.6     | fix for queue filling up with pending notifications after error and fix for internationalisation
 | 1.4.3     | new feature to clear all queues with pending notification & optimisations in pending messages management

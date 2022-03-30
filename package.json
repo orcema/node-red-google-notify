@@ -1,6 +1,6 @@
 {
   "name": "node-red-google-notify",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "text notification to google home or google cast",
   "main": "node-red-google-notify.js",
   "node-red": {
@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "bonjour": "^3.5.0",
-    "file-server": "git://github.com/orcema/file-server",
+    "file-server": "https://github.com/orcema/file-server",
     "google-notify": "1.4.7"
   },
   "bugs": {
