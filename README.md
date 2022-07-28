@@ -1,5 +1,10 @@
 # node-red-google-notify
 
+
+```diff
+- Important: This repository is not maintened anymore
+```
+
 ### Releases:
 | Version   |Comment|
 | ----------|:-------------:|
