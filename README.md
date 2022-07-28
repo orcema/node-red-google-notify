@@ -2,7 +2,7 @@
 
 
 ```diff
-- Important: This repository is not maintened anymore
+- Important: This repository is not maintained anymore
 ```
 
 ### Releases:
